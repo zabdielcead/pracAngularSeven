@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class DataComponent implements OnInit {
        'pasatiempos': new FormArray([
          new FormControl('Correr', Validators.required)
        ]),
+       'username': new FormControl( '' , Validators.required, this.existeUsuario), // el trcer parametro es validador asincrono
        'password1': new FormControl( '', Validators.required ),
        'password2': new FormControl(  )
     });
@@ -38,6 +40,19 @@ export class DataComponent implements OnInit {
         Validators.required,
         this.noIgual.bind(this.forma)  // bind especificar un valor a this por defecto
      ]);
+
+     // detectar cambios en la forma this.forma.valueChanges
+     this.forma.controls['username'].valueChanges   // escuchar un cambio de un campo
+       .subscribe(data => {
+        console.log(data);
+       });
+
+      // ver el status del control en cuestion para ver si es valido o no
+
+      this.forma.controls['username'].statusChanges   // escuchar un cambio de un campo
+      .subscribe(data => {
+       console.log(data);
+      });
    }
 
   ngOnInit() {
@@ -75,5 +90,18 @@ export class DataComponent implements OnInit {
       };
     }
     return null;
+  }
+  existeUsuario( control: FormControl ): Promise<any> | Observable<any> {
+    let promesa = new Promise(
+      (resolve, reject) => {
+        setTimeout( () => {
+          if (control.value === 'strider') {
+            resolve( {existe: true} );
+          } else {
+            resolve( null);
+          }
+        }, 3000);
+    });
+    return promesa;
   }
 }
