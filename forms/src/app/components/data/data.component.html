@@ -49,8 +49,32 @@
             <input class="form-control" type="email" placeholder="Correo electrónico" formControlName="correo">
         </div>
     </div>
+    <div class="form-group row">
+        <label class="col-2 col-form-label">password</label>
+        <div class="col-md-8">
+
+            <input class="form-control" type="password" placeholder="password" formControlName="password1">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">password</label>
+        <div class="col-md-8">
+
+            <input class="form-control" type="password" placeholder="password2" formControlName="password2">
+        </div>
+    </div>
 
 
+
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Pasatiempo</label>
+        <div class="col-md-8" formArrayName="pasatiempos">
+            <input *ngFor="let pasatiempo of forma.controls['pasatiempos'].controls; let i = index" [formControlName]="i" type="text" class="form-control">
+        </div>
+        <button (click)="agregarPasatiempo()" type="button" class="btn btn-primary">Nuevo</button>
+    </div>
 
     <div class="form-group row">
         <label class="col-2 col-form-label">&nbsp;</label>
